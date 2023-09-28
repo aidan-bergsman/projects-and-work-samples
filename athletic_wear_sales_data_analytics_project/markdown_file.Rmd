@@ -2,7 +2,14 @@
 title: "Athletic Wear Sales Analytics Project"
 author: "Aidan Bergsman"
 date: "2023-09-28"
-output: html_document
+output: html_documentoutput:
+  html_document:
+    theme: journal
+    highlight: haddock
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+    keep_md: true
 ---
 
 ```{r setup, include=FALSE}
