@@ -2,7 +2,14 @@
 title: "PDF Function Help File"
 author: "Aidan Bergsman"
 date: "2023-02-13"
-output: github_document
+output:
+  html_document:
+    theme: journal
+    highlight: haddock
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+    keep_md: true
 ---
 # What is the `PDF()` Function?
 
