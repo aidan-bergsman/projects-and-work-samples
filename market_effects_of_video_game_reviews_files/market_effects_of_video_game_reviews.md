@@ -384,7 +384,7 @@ Number of Critic Reviews
 0.002<sup>\*\*\*</sup>
 </td>
 <td>
-0.016<sup>\*\*\*</sup>
+0.016
 </td>
 </tr>
 <tr>
@@ -403,7 +403,6 @@ Number of Critic Reviews
 (0.0004)
 </td>
 <td>
-(0.002)
 </td>
 </tr>
 <tr>
@@ -437,7 +436,7 @@ Critic Score
 0.003<sup>\*\*\*</sup>
 </td>
 <td>
-0.022<sup>\*\*\*</sup>
+0.022
 </td>
 </tr>
 <tr>
@@ -456,7 +455,6 @@ Critic Score
 (0.0003)
 </td>
 <td>
-(0.002)
 </td>
 </tr>
 <tr>
@@ -490,7 +488,7 @@ Number of User Reviews
 0.0001<sup>\*\*\*</sup>
 </td>
 <td>
-0.001<sup>\*\*\*</sup>
+0.001
 </td>
 </tr>
 <tr>
@@ -509,7 +507,6 @@ Number of User Reviews
 (0.00001)
 </td>
 <td>
-(0.0001)
 </td>
 </tr>
 <tr>
@@ -543,7 +540,7 @@ User Score
 -0.006<sup>\*\*\*</sup>
 </td>
 <td>
--0.041<sup>\*\*\*</sup>
+-0.041
 </td>
 </tr>
 <tr>
@@ -562,7 +559,6 @@ User Score
 (0.002)
 </td>
 <td>
-(0.015)
 </td>
 </tr>
 <tr>
