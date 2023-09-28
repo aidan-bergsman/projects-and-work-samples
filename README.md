@@ -2,6 +2,8 @@
 
 This repository contains projects, self-created help files, and independent data dives that I started while completing my Masters degree in Economics at the University of Oregon and have continued for my own coding education. A list of the projects with a short description is including below:
 
+**NOTE: to view the projects, click on the project folder, then the .md file**
+
 **color_palettes.md**
 - This is a help file I created for LOST (the Library Of Statistical Techniques) that discusses how to leverage color palettes in R to get the most out of your graphical analysis
 
