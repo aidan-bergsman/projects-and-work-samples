@@ -2,7 +2,14 @@
 title: "Color Palettes"
 author: "Aidan Bergsman"
 date: "2023-02-11"
-output: github_document
+output:
+  html_document:
+    theme: journal
+    highlight: haddock
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+    keep_md: true
 ---
 
 # Color Palettes
