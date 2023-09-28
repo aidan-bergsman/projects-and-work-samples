@@ -12,12 +12,39 @@ output:
     keep_md: true
 ---
 
-## Introduction
+# Introduction
 
-This project began as an extension of a DataCamp course on business analytics using Microsoft Excel. The course used an Excel Workbook with global sales and client data for athletic wear and taught how to create basic graphs and tables in Excel. After completing the course, I challenged myself to see if I could recreate the graphs and tables using RStudio, which is my analytics tool of choice. 
+This project began as an extension of a DataCamp course on business analytics using Microsoft Excel. The course used an Excel Workbook with global sales and client data for athletic wear and taught how to create basic graphs and tables in Excel. After completing the course, I challenged myself to see if I could recreate the graphs and tables using RStudio, which is my analytics tool of choice.
 
 After completing this challenge, I went a step further and added to my analytics by creating interactive graphs and global heat maps of sales to add even more analytics and insight to a potential colleague, boss, or investor. Below are the various graphs and tables with ample descriptions of what I created and why I thought it was important.
 
+# Data
 
-## next section here
+The data used for the following analytics comes from a DataCamp course on Microsoft Excel, which can be found [here](https://assets.datacamp.com/production/repositories/6317/datasets/2e57fe9fc676c640aab6d1c20f2ab0dfe9cd2ca3/Data%20Preparation%20in%20Excel.pdf). I completed the first chapter of the course, which walks through data cleaning, sheet renaming, and sheet reorganization, which is necessary to complete prior to following along with my analytics below (the first chapter of the DataCamp course is free to complete). After completing the course, I decided to load in the **"Orders"** sheet from the DataCamp workbook to conduct my analytics.
+
+```{r}
+# load in pacman
+library(pacman)
+
+# load in necessary packages
+p_load(readxl,janitor)
+
+# load in orders sheet from DataCamp Workbook
+sales_data <- read_excel("athletic_wear_sales_analytics_project_files/data/sales_data.xlsx",
+                         sheet = "Orders")
+sales_data
+```
+
+## Cleaning 
+The data above contains all sorts of categorical and numerical data regarding individual orders of athletic wear. Lots of potential for analytics! Next, I will clean the data a bit, focusing on the column titles and making them more r-friendly (meaning lowercase letters and underscores instead of spaces). I will use the `janitor` package to quickly clean the column names using the `clean_names()` function.
+
+```{r}
+#clean column names
+sales_data <- clean_names(sales_data)
+
+# view data
+sales_data
+```
+
+Now the column headers are all lowercase and have underscores instead of spaces!
 
