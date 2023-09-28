@@ -1,0 +1,7 @@
+---
+title: "Athletic Wear Sales Analytics Project"
+author: "Aidan Bergsman"
+date: "2023-09-28"
+output: github document
+---
+TEST of file commit
