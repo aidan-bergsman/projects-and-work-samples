@@ -1307,6 +1307,102 @@ ul.task-list{list-style: none;}
 
 
 
+<style type="text/css">
+code {
+white-space: pre;
+}
+.sourceCode {
+overflow: visible;
+}
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+{ counter-reset: source-line 0; }
+pre.numberSource code > span
+{ position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+{ content: counter(source-line);
+position: relative; left: -1em; text-align: right; vertical-align: baseline;
+border: none; display: inline-block;
+-webkit-touch-callout: none; -webkit-user-select: none;
+-khtml-user-select: none; -moz-user-select: none;
+-ms-user-select: none; user-select: none;
+padding: 0 4px; width: 4em;
+color: #aaaaaa;
+}
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa; padding-left: 4px; }
+div.sourceCode
+{ }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; } 
+code span.an { color: #008000; } 
+code span.at { } 
+code span.bu { } 
+code span.cf { color: #0000ff; } 
+code span.ch { color: #008080; } 
+code span.cn { } 
+code span.co { color: #008000; } 
+code span.cv { color: #008000; } 
+code span.do { color: #008000; } 
+code span.er { color: #ff0000; font-weight: bold; } 
+code span.ex { } 
+code span.im { } 
+code span.in { color: #008000; } 
+code span.kw { color: #0000ff; } 
+code span.op { } 
+code span.ot { color: #ff4000; } 
+code span.pp { color: #ff4000; } 
+code span.sc { color: #008080; } 
+code span.ss { color: #008080; } 
+code span.st { color: #008080; } 
+code span.va { } 
+code span.vs { color: #008080; } 
+code span.wa { color: #008000; font-weight: bold; } 
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 
 
 
@@ -1475,8 +1571,8 @@ border-radius: 0px;
 </div>
 
 
-<div id="introduction" class="section level2">
-<h2>Introduction</h2>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
 <p>This project began as an extension of a DataCamp course on business
 analytics using Microsoft Excel. The course used an Excel Workbook with
 global sales and client data for athletic wear and taught how to create
@@ -1489,8 +1585,83 @@ sales to add even more analytics and insight to a potential colleague,
 boss, or investor. Below are the various graphs and tables with ample
 descriptions of what I created and why I thought it was important.</p>
 </div>
-<div id="next-section-here" class="section level2">
-<h2>next section here</h2>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<p>The data used for the following analytics comes from a DataCamp
+course on Microsoft Excel, which can be found <a href="https://assets.datacamp.com/production/repositories/6317/datasets/2e57fe9fc676c640aab6d1c20f2ab0dfe9cd2ca3/Data%20Preparation%20in%20Excel.pdf">here</a>.
+I completed the first chapter of the course, which walks through data
+cleaning, sheet renaming, and sheet reorganization, which is necessary
+to complete prior to following along with my analytics below (the first
+chapter of the DataCamp course is free to complete). After completing
+the course, I decided to load in the <strong>“Orders”</strong> sheet
+from the DataCamp workbook to conduct my analytics.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="co"># load in pacman</span></span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(pacman)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a><span class="co"># load in necessary packages</span></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="fu">p_load</span>(readxl,janitor)</span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a><span class="co"># load in orders sheet from DataCamp Workbook</span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>sales_data <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(<span class="st">&quot;~/github_repos/projects-and-work-samples/athletic_wear_sales_analytics_project_files/data/sales_data.xlsx&quot;</span>,</span>
+<span id="cb1-9"><a href="#cb1-9" tabindex="-1"></a>                         <span class="at">sheet =</span> <span class="st">&quot;Orders&quot;</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" tabindex="-1"></a>sales_data</span></code></pre></div>
+<pre><code>## # A tibble: 1,269 × 24
+##    Order I…¹ Order…² `Order Date`        Days …³ Late_…⁴ Shipp…⁵ Categ…⁶ Custo…⁷
+##        &lt;dbl&gt;   &lt;dbl&gt; &lt;dttm&gt;                &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+##  1      6176    2015 2015-01-04 00:00:00       4       0 Standa…      17    3329
+##  2     10384    2015 2015-01-06 00:00:00       4       1 Standa…      17     587
+##  3     14551    2015 2015-01-08 00:00:00       2       0 Second…      17    2028
+##  4     14574    2015 2015-01-08 00:00:00       2       1 Second…      18    6594
+##  5     22924    2015 2015-01-12 00:00:00       2       1 Second…      29    9704
+##  6       906    2015 2015-01-14 00:00:00       4       0 Standa…      40    7141
+##  7       973    2015 2015-01-15 00:00:00       4       0 Standa…      29    5118
+##  8      1077    2015 2015-01-16 00:00:00       2       1 Second…       9    8103
+##  9      1105    2015 2015-01-17 00:00:00       4       1 Standa…      37    9760
+## 10      1186    2015 2015-01-18 00:00:00       4       0 Standa…       9   11947
+## # … with 1,259 more rows, 16 more variables: `Department Id` &lt;dbl&gt;,
+## #   `Department Name` &lt;chr&gt;, Market &lt;chr&gt;, `Order City` &lt;chr&gt;,
+## #   `Order State` &lt;chr&gt;, `Order Zipcode` &lt;dbl&gt;, `Order Country` &lt;chr&gt;,
+## #   `Order Region` &lt;chr&gt;, `Product Category Id` &lt;dbl&gt;, `Product Id` &lt;dbl&gt;,
+## #   `Product Price` &lt;dbl&gt;, `Product Cost` &lt;dbl&gt;, `Order Quantity` &lt;dbl&gt;,
+## #   `Order Total Discount` &lt;dbl&gt;, Sales &lt;dbl&gt;, `Payment Type` &lt;chr&gt;, and
+## #   abbreviated variable names ¹​`Order Id`, ²​`Order Year`, …</code></pre>
+<div id="cleaning" class="section level2">
+<h2>Cleaning</h2>
+<p>The data above contains all sorts of categorical and numerical data
+regarding individual orders of athletic wear. Lots of potential for
+analytics! Next, I will clean the data a bit, focusing on the column
+titles and making them more r-friendly (meaning lowercase letters and
+underscores instead of spaces). I will use the <code>janitor</code>
+package to quickly clean the column names using the
+<code>clean_names()</code> function.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co">#clean column names</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>sales_data <span class="ot">&lt;-</span> <span class="fu">clean_names</span>(sales_data)</span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="co"># view data</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>sales_data</span></code></pre></div>
+<pre><code>## # A tibble: 1,269 × 24
+##    order_id order_…¹ order_date          days_…² late_…³ shipp…⁴ categ…⁵ custo…⁶
+##       &lt;dbl&gt;    &lt;dbl&gt; &lt;dttm&gt;                &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+##  1     6176     2015 2015-01-04 00:00:00       4       0 Standa…      17    3329
+##  2    10384     2015 2015-01-06 00:00:00       4       1 Standa…      17     587
+##  3    14551     2015 2015-01-08 00:00:00       2       0 Second…      17    2028
+##  4    14574     2015 2015-01-08 00:00:00       2       1 Second…      18    6594
+##  5    22924     2015 2015-01-12 00:00:00       2       1 Second…      29    9704
+##  6      906     2015 2015-01-14 00:00:00       4       0 Standa…      40    7141
+##  7      973     2015 2015-01-15 00:00:00       4       0 Standa…      29    5118
+##  8     1077     2015 2015-01-16 00:00:00       2       1 Second…       9    8103
+##  9     1105     2015 2015-01-17 00:00:00       4       1 Standa…      37    9760
+## 10     1186     2015 2015-01-18 00:00:00       4       0 Standa…       9   11947
+## # … with 1,259 more rows, 16 more variables: department_id &lt;dbl&gt;,
+## #   department_name &lt;chr&gt;, market &lt;chr&gt;, order_city &lt;chr&gt;, order_state &lt;chr&gt;,
+## #   order_zipcode &lt;dbl&gt;, order_country &lt;chr&gt;, order_region &lt;chr&gt;,
+## #   product_category_id &lt;dbl&gt;, product_id &lt;dbl&gt;, product_price &lt;dbl&gt;,
+## #   product_cost &lt;dbl&gt;, order_quantity &lt;dbl&gt;, order_total_discount &lt;dbl&gt;,
+## #   sales &lt;dbl&gt;, payment_type &lt;chr&gt;, and abbreviated variable names
+## #   ¹​order_year, ²​days_for_shipment_scheduled, ³​late_delivery_risk, …</code></pre>
+<p>Now the column headers are all lowercase and have underscores instead
+of spaces!</p>
+</div>
 </div>
 
 

@@ -30,7 +30,7 @@ library(pacman)
 p_load(readxl,janitor)
 
 # load in orders sheet from DataCamp Workbook
-sales_data <- read_excel("athletic_wear_sales_analytics_project_files/data/sales_data.xlsx",
+sales_data <- read_excel("~/github_repos/projects-and-work-samples/athletic_wear_sales_analytics_project_files/data/sales_data.xlsx",
                          sheet = "Orders")
 sales_data
 ```
