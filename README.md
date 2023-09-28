@@ -1,6 +1,6 @@
 # projects-and-work-samples
 
-This repository contains projects and help files that I created while completing my Masters degree in Economics at the University of Oregon. A list of the projects with a short description is including below:
+This repository contains projects, self-created help files, and independent data dives that I started while completing my Masters degree in Economics at the University of Oregon and have continued for my own coding education. A list of the projects with a short description is including below:
 
 **color_palettes.md**
 - This is a help file I created for LOST (the Library Of Statistical Techniques) that discusses how to leverage color palettes in R to get the most out of your graphical analysis
