@@ -64,6 +64,7 @@ sales_data %>%
   group_by(order_year) %>% 
   # create a sum of the 'sales' column after grouping by each year to obtain the total sales in each year
   mutate(total_annual_sales = sum(sales)) %>% 
+  # create graph
   ggplot(mapping = aes(x = order_year, 
                        y = total_annual_sales)) +
   geom_point(color = "firebrick", size = 3) +
@@ -84,6 +85,26 @@ Looks like Africa only has two years worth of data, in 2016 and 2017, and it's c
 Next, I want to look at the annual sales in Europe:
 
 ```{r}
-
+sales_data %>% 
+  # filter for European observations
+  filter(market == "Europe") %>% 
+  # group by 'order_year' to calculate total sales per each year
+  group_by(order_year) %>% 
+  # Create total_sales value that is sum of sales in each year
+  mutate(total_annual_sales = sum(sales)) %>% 
+  # create graph
+  ggplot(aes(x = order_year,
+             y = total_annual_sales)) +
+  geom_point(color = "steelblue3",
+             size = 3) +
+  geom_line(color = "steelblue3",
+            size = 1.5) +
+  # add theme using 'ggthemes' package
+  theme_stata() +
+  # add labels
+  labs(title = "Annual Sales in Europe",
+       x = "Year",
+       y = "Total Annual Sales")
 ```
 
+Europe has one more years worth of data than Africa, with data from 2015-2017, and has additional volatility over that time period. Sales initially declined from 2015 to 2016, dropping from about $22,000 down to almost $2,000. However, sales begin to rise after 2016, reaching just about $3,000 then.
