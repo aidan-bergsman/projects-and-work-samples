@@ -27,7 +27,7 @@ The data used for the following analytics comes from a DataCamp course on Micros
 library(pacman)
 
 # load in necessary packages
-p_load(readxl,janitor,ggplot2)
+p_load(readxl,janitor,ggplot2,plotly)
 
 # load in orders sheet from DataCamp Workbook
 sales_data <- read_excel("~/github_repos/projects-and-work-samples/athletic_wear_sales_analytics_project_files/data/sales_data.xlsx",
@@ -54,6 +54,8 @@ Now the column headers are all lowercase and have underscores instead of spaces!
 
 ## Africa total sales over time
 
+### Regular graph
+
 Now that the data is clean and easier to work with, I want to see how total annual sales have changed in certain markets. First I will look at the sales in Africa.
 
 ```{r}
@@ -78,11 +80,38 @@ sales_data %>%
   
 ```
 
-Looks like Africa only has two years worth of data, in 2016 and 2017, and it's clear that sales declined over that time period from just over $40,000 down to about $3,000, which is a substantial drop.
+Looks like Africa only has two years worth of data, in 2016 and 2017, and it's clear that sales declined over that time period. I can't tell from this graph what the exact sales values are, but I can venture an educated guess. If I want to interact with the graph, I can wrap the `ggplotly` function from the `plotly` package around my `ggplot()` call from above to see exactly what the values are for each of the two data points.
+
+### Interactive graph
+
+```{r}
+ggplotly(sales_data %>% 
+  # filter for only observations in Africa
+  filter(market=="Africa") %>% 
+  # group by order year so we can plot one point for each year
+  group_by(order_year) %>% 
+  # create a sum of the 'sales' column after grouping by each year to obtain the total sales in each year
+  mutate(total_annual_sales = sum(sales)) %>% 
+  # create graph
+  ggplot(mapping = aes(x = order_year, 
+                       y = total_annual_sales)) +
+  geom_point(color = "firebrick", size = 3) +
+  geom_line(color = "firebrick", size = 1.5) +
+  # use 'ggthemes' package to add a professional looking theme to the graph
+  theme_stata() +
+  # add labels and title
+  labs(title = "Annual Sales in Africa",
+       x = "Year",
+       y = "Total Annual Sales (USD)"))
+```
+
+The graph looks exactly the same, but if you hover over the data points we can see the actual total sales amount for 2016 and 2017. Now we see that sales fell from $40,484.64 in 2016 to $ 6,477.34 in 2017.
 
 ## Europe total sales over time
 
-Next, I want to look at the annual sales in Europe:
+### Regular graph
+
+Next, I want to look at the annual sales in Europe. First, I'll start with the standard `ggplot()` graph.
 
 ```{r}
 sales_data %>% 
@@ -107,4 +136,33 @@ sales_data %>%
        y = "Total Annual Sales")
 ```
 
-Europe has one more years worth of data than Africa, with data from 2015-2017, and has additional volatility over that time period. Sales initially declined from 2015 to 2016, dropping from about $22,000 down to almost $2,000. However, sales begin to rise after 2016, reaching just shy of $40,000 in 2017.
+Europe has one more years worth of data than Africa, with data from 2015-2017, and has additional volatility over that time period. Like I did with the Africa graph, I will use the `ggplotly()` function here to observe the sales values from each year.
+
+### Interactive graph
+
+```{r}
+ggplotly(sales_data %>% 
+  # filter for European observations
+  filter(market == "Europe") %>% 
+  # group by 'order_year' to calculate total sales per each year
+  group_by(order_year) %>% 
+  # Create total_sales value that is sum of sales in each year
+  mutate(total_annual_sales = sum(sales)) %>% 
+  # create graph
+  ggplot(aes(x = order_year,
+             y = total_annual_sales)) +
+  geom_point(color = "steelblue3",
+             size = 3) +
+  geom_line(color = "steelblue3",
+            size = 1.5) +
+  # add theme using 'ggthemes' package
+  theme_stata() +
+  # add labels
+  labs(title = "Annual Sales in Europe",
+       x = "Year",
+       y = "Total Annual Sales"))
+```
+
+## Average sales by department in each market
+
+After observing the annual sales changes for two markets, I am curious what the sales from each department look like in each market. I can create a bar graph that visualizes this data,
