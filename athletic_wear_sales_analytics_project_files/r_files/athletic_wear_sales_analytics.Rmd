@@ -107,4 +107,4 @@ sales_data %>%
        y = "Total Annual Sales")
 ```
 
-Europe has one more years worth of data than Africa, with data from 2015-2017, and has additional volatility over that time period. Sales initially declined from 2015 to 2016, dropping from about $22,000 down to almost $2,000. However, sales begin to rise after 2016, reaching just about $3,000 then.
+Europe has one more years worth of data than Africa, with data from 2015-2017, and has additional volatility over that time period. Sales initially declined from 2015 to 2016, dropping from about $22,000 down to almost $2,000. However, sales begin to rise after 2016, reaching just shy of $40,000 in 2017.
