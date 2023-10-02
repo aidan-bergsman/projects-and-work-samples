@@ -27,7 +27,7 @@ The data used for the following analytics comes from a DataCamp course on Micros
 library(pacman)
 
 # load in necessary packages
-p_load(readxl,janitor,ggplot2,plotly)
+p_load(readxl,janitor,ggplot2,plotly,ggthemes)
 
 # load in orders sheet from DataCamp Workbook
 sales_data <- read_excel("~/github_repos/projects-and-work-samples/athletic_wear_sales_analytics_project_files/data/sales_data.xlsx",
@@ -70,7 +70,7 @@ sales_data %>%
   ggplot(mapping = aes(x = order_year, 
                        y = total_annual_sales)) +
   geom_point(color = "firebrick", size = 3) +
-  geom_line(color = "firebrick", size = 1.5) +
+  geom_line(color = "firebrick", linewidth = 1.5) +
   # use 'ggthemes' package to add a professional looking theme to the graph
   theme_stata() +
   # add labels and title
@@ -96,7 +96,7 @@ ggplotly(sales_data %>%
   ggplot(mapping = aes(x = order_year, 
                        y = total_annual_sales)) +
   geom_point(color = "firebrick", size = 3) +
-  geom_line(color = "firebrick", size = 1.5) +
+  geom_line(color = "firebrick", linewidth = 1.5) +
   # use 'ggthemes' package to add a professional looking theme to the graph
   theme_stata() +
   # add labels and title
@@ -105,7 +105,7 @@ ggplotly(sales_data %>%
        y = "Total Annual Sales (USD)"))
 ```
 
-The graph looks exactly the same, but if you hover over the data points we can see the actual total sales amount for 2016 and 2017. Now we see that sales fell from $40,484.64 in 2016 to $ 6,477.34 in 2017.
+The graph looks exactly the same, but if you hover over the data points we can see the actual total sales amount for 2016 and 2017. Now I see that sales fell from $40,484.64 in 2016 to $ 6,477.34 in 2017.
 
 ## Europe total sales over time
 
@@ -127,7 +127,7 @@ sales_data %>%
   geom_point(color = "steelblue3",
              size = 3) +
   geom_line(color = "steelblue3",
-            size = 1.5) +
+            linewidth = 1.5) +
   # add theme using 'ggthemes' package
   theme_stata() +
   # add labels
@@ -162,6 +162,8 @@ ggplotly(sales_data %>%
        x = "Year",
        y = "Total Annual Sales"))
 ```
+
+With the interactive graph above, I see that sales in Europe were equivalent to $21,717.55 in 2015, decreasing to $2,964.55 in 2016, and rising finally to $36,172.24 in 2017.
 
 ## Average sales by department in each market
 
