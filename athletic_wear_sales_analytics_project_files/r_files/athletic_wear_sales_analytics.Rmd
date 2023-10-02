@@ -48,7 +48,13 @@ sales_data
 
 Now the column headers are all lowercase and have underscores instead of spaces!
 
-## Converting `order_date` variable from numeric to date
+## Converting `department_name` variable from character to factor
+
+Next, I will convert the `department_name` variable into a factor, which will come in handy later on when I create a bar chart and want to reorder the bars.
+
+```{r}
+sales_data$department_name <- as.factor(sales_data$department_name)
+```
 
 # Graphs
 
@@ -165,6 +171,22 @@ ggplotly(sales_data %>%
 
 With the interactive graph above, I see that sales in Europe were equivalent to $21,717.55 in 2015, decreasing to $2,964.55 in 2016, and rising finally to $36,172.24 in 2017.
 
-## Average sales by department in each market
+## Department sales
 
-After observing the annual sales changes for two markets, I am curious what the sales from each department look like in each market. I can create a bar graph that visualizes this data,
+### Bar graph of sales values by department
+
+The next analytics I am interested in conducting is a graph of all sales in each department to get a better idea as to which departments can generate the most revenue for this company **per order**. I will create a bar graph that visualizes this data, opting this time to only show the interactive plot so I can observe the exact sales values for each order from each department.
+
+```{r}
+# wrap in ggplotly() to make interactive
+ggplotly(sales_data %>% 
+# use reorder() in aes() function to put bars in desc. order (-sales means desc. order by sales variable)
+           ggplot(aes(reorder(department_name, sales),
+                      sales)) +
+# add bars. "stat = 'identity'" allows me to change the y axis from count (default setting) to sales variable from data. "position = 'dodge'"  
+           geom_bar(stat = "identity", fill = "skyblue3", position = 'dodge'))
+```
+
+This graph offers a lot in terms of actionable insights. By moving the cursor up inside of each bar, I can see the dollar value of each order from that particular department. Clearly, the technology department can offer the most in terms of revenue, as it has the most expensive orders in all the data, with fitness being a distant second. In order to make a decision on revenue, however, I will next create a bar graph detailing the total sales per department and see if the results are the same or different from this graph.
+
+### Bar graph of total sales by department
