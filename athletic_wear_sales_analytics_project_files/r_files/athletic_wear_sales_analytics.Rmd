@@ -48,14 +48,6 @@ sales_data
 
 Now the column headers are all lowercase and have underscores instead of spaces!
 
-## Converting `department_name` variable from character to factor
-
-Next, I will convert the `department_name` variable into a factor, which will come in handy later on when I create a bar chart and want to reorder the bars.
-
-```{r}
-sales_data$department_name <- as.factor(sales_data$department_name)
-```
-
 # Graphs
 
 ## Africa total sales over time
