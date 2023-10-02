@@ -27,7 +27,7 @@ The data used for the following analytics comes from a DataCamp course on Micros
 library(pacman)
 
 # load in necessary packages
-p_load(readxl,janitor,ggplot2,plotly,ggthemes)
+p_load(readxl,janitor,ggplot2,plotly,ggthemes,dplyr)
 
 # load in orders sheet from DataCamp Workbook
 sales_data <- read_excel("~/github_repos/projects-and-work-samples/athletic_wear_sales_analytics_project_files/data/sales_data.xlsx",
@@ -181,12 +181,40 @@ The next analytics I am interested in conducting is a graph of all sales in each
 # wrap in ggplotly() to make interactive
 ggplotly(sales_data %>% 
 # use reorder() in aes() function to put bars in desc. order (-sales means desc. order by sales variable)
-           ggplot(aes(reorder(department_name, sales),
+           ggplot(aes(department_name,
                       sales)) +
-# add bars. "stat = 'identity'" allows me to change the y axis from count (default setting) to sales variable from data. "position = 'dodge'"  
-           geom_bar(stat = "identity", fill = "skyblue3", position = 'dodge'))
+# add bars. "stat = 'identity'" allows me to change the y axis from count (default setting) to sales variable from data
+           geom_bar(stat = "identity", fill = "skyblue3", position = 'dodge') +
+  theme_stata() +
+  labs(title = "Revenue values by Department",
+         y = "Sales (USD)", 
+         x = "Department")) 
 ```
 
 This graph offers a lot in terms of actionable insights. By moving the cursor up inside of each bar, I can see the dollar value of each order from that particular department. Clearly, the technology department can offer the most in terms of revenue, as it has the most expensive orders in all the data, with fitness being a distant second. In order to make a decision on revenue, however, I will next create a bar graph detailing the total sales per department and see if the results are the same or different from this graph.
 
 ### Bar graph of total sales by department
+
+In order to tell which department is responsible for the most sales, I will need to calculate the total sales by department first, then create a graph similar to the ones above, but using the newly created `total_sales` value instead of the normal `sales` value.
+
+```{r}
+# create new column for total sales grouped by department
+sales_data <-sales_data %>% 
+  group_by(department_name) %>%
+  mutate(total_department_sales = sum(sales))
+
+# create graph
+ggplotly(
+  ggplot(sales_data,
+         aes(department_name,total_department_sales)) +
+    geom_bar(stat = 'identity',
+               position = 'dodge',
+               fill = 'palevioletred') +
+    theme_stata() +
+    labs(title = "Total Revenue by Department",
+         y = "Total Sales (USD)", 
+         x = "Department")
+  )
+```
+
+Now this graph tells a very different story from the previous one. In the previous graph, we saw that the technology department had the highest order values of any department, but this new graph shows that the technology department accounts for very little in terms of total revenue. Apparel is by far bringing in the most revenue, followed by Fitness, Footwear, and Golf all bringing in similar amounts of revenue. So, even though the technology department has some of the most expensive orders, these are a handful of orders that, when compared to the massive quantities of apparel orders, is dwarfed in terms of the amount of revenue generated.
