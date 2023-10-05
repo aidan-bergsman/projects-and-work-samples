@@ -220,13 +220,18 @@ Now that we have seen the individual and total sales values across departments, 
 ggplotly(
   sales_data %>% 
     # group by market
-    group_by(market) %>% 
+    group_by(market, department_name) %>% 
     # create total sales value by summing sales for each       market
     summarise(total_market_sales = sum(sales)) %>% 
     # graph total sales by market
     ggplot(aes(x = market, y = total_market_sales, fill = department_name)) +
     geom_bar(stat = "identity",
-             position = "dodge")
+             position = "dodge") +
+    labs(title = "Total Department Sales by Market",
+         y = "Total Sales (USD)",
+         x = "Market",
+         fill = "Department Name") +
+    scale_fill_colorblind()
   )
 ```
 
