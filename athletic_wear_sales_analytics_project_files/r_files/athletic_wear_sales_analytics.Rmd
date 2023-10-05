@@ -242,4 +242,49 @@ ggplotly(
 
 The last data visualization I will create is a heat map to visualize where the most orders are coming from around the world. This will be informative as it will give me an idea of what countries in each market are doing the most business with this athletic wear company.
 
-The first step in this process
+The first step in this process is to create a new column in the data set that contains the total number of orders for each country. In this case, every single observation (or row) in the original data set is a unique order, so all I need to do is group by each country and create a new column whose value is equal to the number of rows each country has.
+
+```{r}
+sales_data <- sales_data %>% 
+  group_by(order_country) %>% 
+  mutate(total_orders = n_distinct(order_id))
+```
+
+Next, I will use the `rnaturalearth` package to extract countries map data to use in constructing the map. I will save the countries data as a new object, which I will then merge with the sales data to have one data set with all the information I need.
+
+```{r}
+p_load(rnaturalearth)
+countries = ne_countries(returnclass = "sf")
+```
+
+Now that I have the two data sets, one with sales data and the other with the map data, I will merge them together to have one data set with all the information. In order to do this seamlessly, both data sets need to have one column in common. In this case, both data sets have a column with country names. I will need to change the column name in the `sales_data` data set to match that in the `countries` data set, which is called `name_long`.
+
+```{r}
+sales_data <- sales_data %>% rename(name_long = order_country)
+```
+
+Now that both data sets have a column called `name_long` that contains info on country names, I can merge them using these columns.
+
+```{r}
+map_density_data <- full_join(sales_data,countries, by = "name_long") 
+```
+
+Now, with all the data in one dataset, I can create a heat map where countries are filled in by a color corresponding to the number of orders they placed.
+
+```{r}
+ggplot(map_density_data) + 
+  geom_sf(mapping=aes(fill = total_orders,
+                      geometry=geometry),
+          color = "gray10", stat="sf") +
+  scale_fill_viridis_c(name="Number of Orders", 
+                       option="plasma",
+                       direction = -1,
+                       na.value='grey85',
+                       trans='log',
+                       breaks=scales::log_breaks(n=5, base=10),
+                       labels=scales::comma) +
+  ggtitle("Global Orders by Country") +
+  labs(caption = "Darker color = more orders")
+```
+
+This map clearly shows which countries are responsible for placing the most orders. The color scale on the right side of the graph indicates that a darker shade means that a higher quantity of orders was placed. As a result, the United States, China, Brasil, India, and Australia are the countries with some of the highest order totals across the globe.
