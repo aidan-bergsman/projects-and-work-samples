@@ -187,7 +187,7 @@ This graph offers a lot in terms of actionable insights. By moving the cursor up
 
 ### Bar graph of total sales by department
 
-In order to tell which department is responsible for the most sales, I will need to calculate the total sales by department first, then create a graph similar to the ones above, but using the newly created `total_sales` value instead of the normal `sales` value.
+In order to tell which department is responsible for the most sales, or revenue, I will need to calculate the total sales by department first, then create a graph similar to the ones above, but using the newly created `total_sales` value instead of the normal `sales` value.
 
 ```{r}
 # create new column for total sales grouped by department
@@ -210,3 +210,23 @@ ggplotly(
 ```
 
 Now this graph tells a very different story from the previous one. In the previous graph, we saw that the technology department had the highest order values of any department, but this new graph shows that the technology department accounts for very little in terms of total revenue. Apparel is by far bringing in the most revenue, followed by Fitness, Footwear, and Golf all bringing in similar amounts of revenue. So, even though the technology department has some of the most expensive orders, these are a handful of orders that, when compared to the massive quantities of apparel orders, is dwarfed in terms of the amount of revenue generated.
+
+## Department sales in each market
+
+Now that we have seen the individual and total sales values across departments, let's add another element, the market, to see how departmental sales vary geographically. This will provide us with insight as to where geographically each department is generating the most revenue.
+
+```{r}
+# wrap in ggplotly() to create interactive graph
+ggplotly(
+  sales_data %>% 
+    # group by market
+    group_by(market) %>% 
+    # create total sales value by summing sales for each       market
+    summarise(total_market_sales = sum(sales)) %>% 
+    # graph total sales by market
+    ggplot(aes(x = market, y = total_market_sales, fill = department_name)) +
+    geom_bar(stat = "identity",
+             position = "dodge")
+  )
+```
+
