@@ -231,7 +231,15 @@ ggplotly(
          y = "Total Sales (USD)",
          x = "Market",
          fill = "Department Name") +
-    scale_fill_colorblind()
+    scale_fill_colorblind() +
+    theme_stata()
   )
 ```
 
+# Maps
+
+## Global heat map of sales
+
+The last data visualization I will create is a heat map to visualize where the most orders are coming from around the world. This will be informative as it will give me an idea of what countries in each market are doing the most business with this athletic wear company.
+
+The first step in this process
