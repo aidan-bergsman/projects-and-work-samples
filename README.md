@@ -15,3 +15,6 @@ This repository contains projects, self-created help files, and independent data
 
 **athletic_wear_sales_analytics_project**
 - This is an independent project I started after taking a Microsoft Excel course on DataCamp. The course used an Excel Workbook with sales data for athletic wear, and I wanted to refresh my R coding skills to prove that I could replicate the graphs I made in Excel using R. I loaded the same data from the course into R and started coding. This is ultimately a demonstration of my business analytics skills as I create graphs displaying sales data and showing informative insights to potential colleagues.
+
+**sleep_study_regression_project**
+- This is an independent project using sleep study data I downloaded from kaggle.com and illustrates how I go about analyzing it using a regression approach, which is common in economics.
