@@ -18,7 +18,8 @@ I found a data set from a sleep study posted on kaggle.com, and when I looked at
 
 ## Packages
 
-```{r}
+
+```r
 library(pacman)
 p_load(readr, dplyr, janitor, stargazer, corrplot)
 ```
@@ -39,8 +40,23 @@ Here is a description of each of the variables contained within the data set.
 
 ## Load in the data
 
-```{r}
+
+```r
 sleep_study <- read_csv("~/github_repos/projects-and-work-samples/sleep__study_regression_project/data/SleepStudyData.csv")
+```
+
+```
+## Rows: 104 Columns: 6
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: ","
+## chr (4): Enough, PhoneReach, PhoneTime, Breakfast
+## dbl (2): Hours, Tired
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.
+```
+
+```r
 View(sleep_study)
 ```
 
@@ -50,7 +66,8 @@ View(sleep_study)
 
 Looking at the data set, it's clear I will need to tidy it up first before being able to work with it. First, I will use the handy `clean_names()` function from the `janitor` package to make all variable names lower case and place underscores between words.
 
-```{r}
+
+```r
 sleep_study <- clean_names(sleep_study)
 View(sleep_study)
 ```
@@ -59,7 +76,8 @@ View(sleep_study)
 
 Next, I will re-code the variables `enough`, `phone_reach`, `phone_time`, and `breakfast` as binary variables. Binary variables are easier to work with in regressions because they are easier to interpret in the tables, and it is standard econometric practice. I will re-code these variables so that `yes` is `1` and `no` is `0`.
 
-```{r}
+
+```r
 sleep_study <- sleep_study %>% 
   mutate(enough = ifelse(enough == "Yes", 1, 0),
          phone_reach = ifelse(phone_reach == "Yes", 1, 0),
@@ -77,7 +95,8 @@ To begin any regression analysis, it helps to visualize the data to see if we ca
 
 I will create a correlation plot to observe relationships between all my variables. This is particularly useful with binary variables because  typical scatter plot would not reveal much of anything, given that most of the variables only have two possible values. A great tool for making such a plot is the `corrplot` package. First, I will use the `cor()` function to create a correlation matrix (correlational values between variables) and then I will plot this matrix using the `corrplot()` function.
 
-```{r}
+
+```r
 corr_matrix <- cor(sleep_study)
 
 corrplot(corr_matrix, 
@@ -88,6 +107,8 @@ corrplot(corr_matrix,
          title = "Sleep Study Correlation Plot",
          mar = c(1,1,1,1))
 ```
+
+![](sleep_study_regression_project_markdown_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
 According to the above correlation plot, there are clearly no strong relationships in the data. Relationships range from -1 to 1, and the closer they are to 0 means there is little to no relationship present in the data. The question marks indicate that there is insufficient data to calculate a relationship between those variables, which makes sense as there are only 104 participants in this study.
 
@@ -101,7 +122,8 @@ I will use the built-in `lm()` function to run my regression.
 
 ## Creating and storing the regression
 
-```{r}
+
+```r
 reg <- lm(enough ~ ., data = sleep_study)
 ```
 
@@ -109,7 +131,8 @@ The regression is saved to the object `reg`. in order to see the table, I will u
 
 ## Creating regression output table
 
-```{r, results='asis'}
+
+```r
 stargazer(reg,
           type = 'html',
           title = "Sleep Study Regression",
@@ -120,6 +143,37 @@ stargazer(reg,
                                "Tired",
                                "Breakfast"))
 ```
+
+
+<table style="text-align:center"><caption><strong>Sleep Study Regression</strong></caption>
+<tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"></td><td><em>Dependent variable:</em></td></tr>
+<tr><td></td><td colspan="1" style="border-bottom: 1px solid black"></td></tr>
+<tr><td style="text-align:left"></td><td>Enough</td></tr>
+<tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Hours of sleep</td><td>0.111<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(0.031)</td></tr>
+<tr><td style="text-align:left"></td><td></td></tr>
+<tr><td style="text-align:left">Phone within reach</td><td>-0.078</td></tr>
+<tr><td style="text-align:left"></td><td>(0.095)</td></tr>
+<tr><td style="text-align:left"></td><td></td></tr>
+<tr><td style="text-align:left">Phone used within 30 mins of bedtime</td><td>-0.089</td></tr>
+<tr><td style="text-align:left"></td><td>(0.109)</td></tr>
+<tr><td style="text-align:left"></td><td></td></tr>
+<tr><td style="text-align:left">Tired</td><td>-0.173<sup>***</sup></td></tr>
+<tr><td style="text-align:left"></td><td>(0.043)</td></tr>
+<tr><td style="text-align:left"></td><td></td></tr>
+<tr><td style="text-align:left">Breakfast</td><td>-0.050</td></tr>
+<tr><td style="text-align:left"></td><td>(0.091)</td></tr>
+<tr><td style="text-align:left"></td><td></td></tr>
+<tr><td style="text-align:left">Constant</td><td>0.300</td></tr>
+<tr><td style="text-align:left"></td><td>(0.286)</td></tr>
+<tr><td style="text-align:left"></td><td></td></tr>
+<tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left">Observations</td><td>102</td></tr>
+<tr><td style="text-align:left">R<sup>2</sup></td><td>0.276</td></tr>
+<tr><td style="text-align:left">Adjusted R<sup>2</sup></td><td>0.239</td></tr>
+<tr><td style="text-align:left">Residual Std. Error</td><td>0.416 (df = 96)</td></tr>
+<tr><td style="text-align:left">F Statistic</td><td>7.335<sup>***</sup> (df = 5; 96)</td></tr>
+<tr><td colspan="2" style="border-bottom: 1px solid black"></td></tr><tr><td style="text-align:left"><em>Note:</em></td><td style="text-align:right"><sup>*</sup>p<0.1; <sup>**</sup>p<0.05; <sup>***</sup>p<0.01</td></tr>
+</table>
 
 ## Table analysis and conclusions
 
