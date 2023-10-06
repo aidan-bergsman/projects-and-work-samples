@@ -11,3 +11,65 @@ output:
     toc_float: yes
     keep_md: true
 ---
+
+# Introduction
+
+I found a data set from a sleep study posted on kaggle.com, and when I looked at the data I thought it would be a great opportunity to showcase a regression analysis. A description of the data is included below, and the data set and its description can be found [here](https://www.kaggle.com/datasets/mlomuscio/sleepstudypilot/).
+
+## Packages
+
+```{r}
+library(pacman)
+p_load(readr, dplyr, ggplot2, ggthemes, janitor, stargazer)
+```
+
+
+# Data
+
+## Description
+
+Data collected from a survey-based study of the sleeping habits of individuals within the US. This data was conducted as a pilot study to determine whether or not students were satisfied with the survey.
+Here is a description of each of the variables contained within the data set.
+- Enough = Do you think that you get enough sleep?
+- Hours = On average, how many hours of sleep do you get on a weeknight?
+- PhoneReach = Do you sleep with your phone within arms reach?
+- PhoneTime = Do you use your phone within 30 minutes of falling asleep?
+- Tired = On a scale from 1 to 5, how tired are you throughout the day? (1 being not tired, 5 being very tired)
+- Breakfast = Do you typically eat breakfast?
+
+## Load in the data
+
+```{r}
+sleep_study <- read_csv("sleep__study_regression_project/data/SleepStudyData.csv")
+View(sleep_study)
+```
+
+## Cleaning
+
+Looking at the data set, it's clear I will need to tidy it up first before being able to work with it. First, I will use the handy `clean_names()` function from the `janitor` package to make all variable names lower case and place underscores between words.
+
+```{r}
+sleep_study <- clean_names(sleep_study)
+View(sleep_study)
+```
+
+Next, I will re-code the variables `enough`, `phone_reach`, `phone_time`, and `breakfast` as binary variables. Binary variables are easier to work with in regressions because they are easier to interpret in the tables, and it is standard econometric practice. I will re-code these variables so that `yes` is `1` and `no` is `0`.
+
+```{r}
+sleep_study <- sleep_study %>% 
+  mutate(enough = ifelse(enough == "Yes", 1, 0),
+         phone_reach = ifelse(phone_reach == "Yes", 1, 0),
+         phone_time = ifelse(phone_time == "Yes", 1, 0),
+         breakfast = ifelse(breakfast == "Yes", 1, 0))
+
+View(sleep_study)
+```
+
+Great! Now the categorical variables are all re-coded as binary, or 1s and 0s.
+
+# Correlation plot
+
+To begin any regression analysis, it helps to visualize the data to see if we can find any correlations between the variables. Since this data is from a survey and not from an experimental design, any relationships I find in the data are correlational, not causal. Despite this fact, it can still reveal interesting relationships that I could investigate further with an experiment to create causal claims.
+
+I will create a correlation plot to observe relationships between all my variables. This is particularly useful with binary variables because  typical scatter plot would not reveal much of anything, given that most of the variables only have two possible values. A great tool for making such a plot is the `corrplot` package. First, I will use the `cor()` function to create a correlation matrix (correlational values between variables) and then I will plot this matrix using the `corrplot()` function.
+
