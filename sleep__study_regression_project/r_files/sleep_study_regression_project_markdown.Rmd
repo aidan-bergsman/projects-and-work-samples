@@ -84,6 +84,8 @@ corrplot(corr_matrix,
          method = 'number',
          diag = F,
          type = 'lower',
-         order = 'alphabet')
+         order = 'alphabet',
+         title = "Sleep Study Correlation Plot",
+         mar = c(1,1,1,1))
 ```
 
