@@ -20,7 +20,7 @@ I found a data set from a sleep study posted on kaggle.com, and when I looked at
 
 ```{r}
 library(pacman)
-p_load(readr, dplyr, ggplot2, ggthemes, janitor, stargazer)
+p_load(readr, dplyr, janitor, stargazer, corrplot)
 ```
 
 
@@ -46,12 +46,16 @@ View(sleep_study)
 
 ## Cleaning
 
+### Column names
+
 Looking at the data set, it's clear I will need to tidy it up first before being able to work with it. First, I will use the handy `clean_names()` function from the `janitor` package to make all variable names lower case and place underscores between words.
 
 ```{r}
 sleep_study <- clean_names(sleep_study)
 View(sleep_study)
 ```
+
+### Re-code binary variabls
 
 Next, I will re-code the variables `enough`, `phone_reach`, `phone_time`, and `breakfast` as binary variables. Binary variables are easier to work with in regressions because they are easier to interpret in the tables, and it is standard econometric practice. I will re-code these variables so that `yes` is `1` and `no` is `0`.
 
@@ -72,4 +76,14 @@ Great! Now the categorical variables are all re-coded as binary, or 1s and 0s.
 To begin any regression analysis, it helps to visualize the data to see if we can find any correlations between the variables. Since this data is from a survey and not from an experimental design, any relationships I find in the data are correlational, not causal. Despite this fact, it can still reveal interesting relationships that I could investigate further with an experiment to create causal claims.
 
 I will create a correlation plot to observe relationships between all my variables. This is particularly useful with binary variables because  typical scatter plot would not reveal much of anything, given that most of the variables only have two possible values. A great tool for making such a plot is the `corrplot` package. First, I will use the `cor()` function to create a correlation matrix (correlational values between variables) and then I will plot this matrix using the `corrplot()` function.
+
+```{r}
+corr_matrix <- cor(sleep_study)
+
+corrplot(corr_matrix, 
+         method = 'number',
+         diag = F,
+         type = 'lower',
+         order = 'alphabet')
+```
 
