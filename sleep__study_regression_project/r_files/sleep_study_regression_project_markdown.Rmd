@@ -89,3 +89,27 @@ corrplot(corr_matrix,
          mar = c(1,1,1,1))
 ```
 
+According to the above correlation plot, there are clearly no strong relationships in the data. Relationships range from -1 to 1, and the closer they are to 0 means there is little to no relationship present in the data. The question marks indicate that there is insufficient data to calculate a relationship between those variables, which makes sense as there are only 104 participants in this study.
+
+There are three relationships to note in this data. The first two involve `breakfast`, and have negative correlation values with `phone_reach` and `tired`. These negative correlations indicate that sleeping within reach of your phone and claiming to feel more tired the following day reduce the odds of breakfast the next day. The third relationship is between `tired` and `enough`, signifying that participants who claim to be more tired during the day also have a reduced chance of feeling like they got enough sleep the previous night, which makes perfect sense.
+
+# Regression analysis
+
+Now that I have an idea of what to expect regarding the magnitude and direction of the variable relationships, I will run a regression to further quantify the variables' relationship with an outcome variable of my choosing. In this case, it seems appropriate to use the `enough` variable because I want to observe how the other variables, like `phone_reach`, `phone_time` and `breakfast` impact one's ability to get enough sleep. 
+
+I will use the built-in `lm()` function to run my regression.
+
+## Creating and storing the regression
+
+```{r}
+reg <- lm(enough ~ ., data = sleep_study)
+```
+
+The regression is saved to the object `reg`. in order to see the table, I will use the `stargazer()` function from the `stargazer` package.
+
+## Creating regression output table
+
+```{r}
+
+```
+
