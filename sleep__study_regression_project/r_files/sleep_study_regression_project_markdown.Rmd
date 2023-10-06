@@ -110,6 +110,14 @@ The regression is saved to the object `reg`. in order to see the table, I will u
 ## Creating regression output table
 
 ```{r}
-
+stargazer(reg,
+          type = 'text',
+          title = "Sleep Study Regression",
+          dep.var.labels = "Enough",
+          covariate.labels = c("Hours of sleep",
+                               "Phone within reach",
+                               "Phone used within 30 mins of bedtime",
+                               "Tired",
+                               "Breakfast"))
 ```
 
